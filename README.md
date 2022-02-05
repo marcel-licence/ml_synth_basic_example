@@ -5,4 +5,13 @@
   <a href="https://youtu.be/WJGOIgaY-1s">link to the video</a>
 </p>
 
-Code is coming soon!
+My intention was to make a Moog-like synthesizer.
+The result is a bit different but contains some features you might know.
+It is a polyphonic Arduino synthesizer project which runs with 3 oscillators per voice.
+Tested on the ESP32 it supports 8 voices simultaneously.
+Each of the 16 MIDI channels can be configured to generate a unique sound.
+Finally the project is not for the ESP32 only. The flexible design allows the support of different platforms like STM32, Teensy etc.
+All you hear in this video is directly recorded from the ESP32 Audio Kit without any post processing.
+
+The following images shows the rough architecture of the project:
+<img src="img/block.jpg" alt="project block diagram">
