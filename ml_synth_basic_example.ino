@@ -109,8 +109,11 @@ void setup()
      * The buffer shall be static to ensure that
      * the memory will be exclusive available for the reverb module
      */
-    //static float revBuffer[REV_BUFF_SIZE];
+#ifdef REVERB_STATIC
+    static float revBuffer[REV_BUFF_SIZE];
+#else
     static float *revBuffer = (float *)malloc(sizeof(float) * REV_BUFF_SIZE);
+#endif
     Reverb_Setup(revBuffer);
 #endif
 
@@ -306,16 +309,12 @@ void Synth_SongPosReset(uint8_t unused, float var)
     }
 }
 
-uint32_t actVoices = 0;
-uint32_t actOsc = 0;
-
 /*
  * use this if something should happen every second
  * - you can drive a blinking LED for example
  */
 inline void Loop_1Hz(void)
 {
-    Serial.printf("v: %d, o: %d\n", actVoices, actOsc);
 #ifdef BLINK_LED_PIN
     Blink_Process();
 #endif
@@ -400,8 +399,6 @@ void loop()
         right[i] += mono[i];
     }
 #endif
-
-
 
     /*
      * Output the audio

@@ -267,10 +267,11 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define MIDI_PORT2_ACTIVE /* MIDI in : PIN A3 */
 
 
-#if 0 /* device does not work using delay effect */
-#define MAX_DELAY (44100/8)
+#define REVERB_ENABLED
+#define REVERB_STATIC
+
+#define MAX_DELAY (44100/10) /* very short but not enough memory for more - mono delay or lo-fi might help */
 #define DELAY_STATIC
-#endif
 
 
 #endif /* ARDUINO_DISCO_F407VG */

@@ -42,11 +42,10 @@
 #endif
 
 
-
-#include "ml_osc.h"
-#include "ml_env.h"
-#include "ml_filter.h"
-#include "ml_waveform.h"
+#include <ml_osc.h>
+#include <ml_env.h>
+#include <ml_filter.h>
+#include <ml_waveform.h>
 
 
 static struct notePlayerT *getFreeVoice(void);
@@ -97,8 +96,12 @@ static struct notePlayerT *getFreeVoice(void);
 /*
  * Following defines can be changed for different puprposes
  */
-#define MAX_POLY_OSC    (3*8) /* osc polyphony, always active reduces single voices max poly */
+#ifdef ARDUINO_DISCO_F407VG
+#define MAX_POLY_VOICE  6  /* max single voices, can use multiple osc */
+#else
 #define MAX_POLY_VOICE  8  /* max single voices, can use multiple osc */
+#endif
+#define MAX_POLY_OSC    (3*MAX_POLY_VOICE) /* osc polyphony, always active reduces single voices max poly */
 
 #define MIDI_NOTE_CNT 128
 static uint32_t midi_note_to_add[MIDI_NOTE_CNT]; /* lookup to playback waveforms with correct frequency */
@@ -119,10 +122,17 @@ float sine[WAVEFORM_CNT];
 float saw[WAVEFORM_CNT];
 //float *square = NULL;
 float square[WAVEFORM_CNT];
+#ifdef ESP32
 float *pulse = NULL;
 float *tri = NULL;
 float *crappy_noise = NULL;
 float *silence = NULL;
+#else
+float pulse[WAVEFORM_CNT];
+float tri[WAVEFORM_CNT];
+float crappy_noise[WAVEFORM_CNT];
+float silence[WAVEFORM_CNT];
+#endif
 
 /*
  * do not forget to enter the waveform pointer addresses here
@@ -260,7 +270,9 @@ static float justOne = 1.0f;
 
 void Synth_Init()
 {
+#ifdef ESP32
     randomSeed(34547379);
+#endif
 
     /*
      * we do not check if malloc was successful
@@ -269,10 +281,12 @@ void Synth_Init()
     //sine = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     //saw = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     //square = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
+#ifdef ESP32
     pulse = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     tri = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     crappy_noise = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     silence = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
+#endif
 
     if (sine == NULL)
     {
@@ -340,7 +354,7 @@ void Synth_Init()
     for (int i = 0; i < MAX_POLY_OSC; i++)
     {
         oscillatorT *osc = &oscPlayer[i];
-        osc->waveForm = &silence;
+        osc->waveForm = &waveFormLookUp[WAVEFORM_TYPE_COUNT - 1];
         osc->dest[0] = voiceSink;
         osc->dest[1] = voiceSink;
 
@@ -485,9 +499,6 @@ float GetModulation(uint8_t ch)
 //[[gnu::noinline, gnu::optimize ("fast-math")]]
 inline void Synth_Process(float *left, float *right, uint32_t len)
 {
-    actVoices = 0;
-    actOsc = 0;
-
     /*
      * update pitch bending / modulation
      */
@@ -546,8 +557,6 @@ inline void Synth_Process(float *left, float *right, uint32_t len)
         notePlayerT *voice = &voicePlayer[i];
         if (voice->active)
         {
-            actVoices++;
-
 #ifdef NOISE_ENABLED
             for (uint32_t n = 0; n < len; n++)
             {
