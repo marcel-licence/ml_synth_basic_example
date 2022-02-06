@@ -52,6 +52,8 @@
 #endif
 
 
+#define NOTE_ON_AFTER_SETUP /* used to get a test tone without MIDI input. Can be deactivated */
+
 //#define USE_ML_SYNTH_PRO
 
 
@@ -275,6 +277,38 @@ SoftwareSerial Serial2(RXD2, TXD2);
 
 
 #endif /* ARDUINO_DISCO_F407VG */
+
+
+#ifdef ARDUINO_BLACK_F407VE
+/*
+ * from variant.h
+ * LED_BUILTIN: PA6
+ * LED1_BUILTIN: PA7
+ *
+ * USER_BUTTON0: PA0
+ * USER_BUTTON1: PE3
+ * USER_BUTTON2: PE4
+ *
+ * SDA: PB7
+ * SCL: PB6
+ */
+#define BLINK_LED_PIN LED_BUILTIN /* PA6 */
+#define LED_PIN LED_BUILTIN
+
+#define SAMPLE_BUFFER_SIZE  48
+#define SAMPLE_RATE  44100
+
+/*
+ * define your I2S interface here!
+ * values are just example values and will not work
+ */
+#define I2S_I2SN    SPI2 // only SPI2 and SPI3 supports I2S
+#define I2S_MCLK    PC6 // I2S2_MCK
+#define I2S_SCLK    PB10 // or PB13 I2S2_CK
+#define I2S_SDIN    PC3 // I2S2_SD or PB15 mcu out -> dac in
+#define I2S_LRCK    PB12 // I2S2_WS
+
+#endif /* DARDUINO_BLACK_F407VE */
 
 
 //#define MIDI_FMT_INT

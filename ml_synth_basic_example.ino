@@ -155,7 +155,7 @@ void setup()
 
     Serial.printf("Firmware started successfully\n");
 
-#if 1 /* activate this line to get a tone on startup to test the DAC */
+#ifdef NOTE_ON_AFTER_SETUP /* activate this line to get a tone on startup to test the DAC */
     Synth_NoteOn(0, 64, 1.0f);
 #endif
 
