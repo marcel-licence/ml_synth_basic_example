@@ -305,7 +305,7 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define I2S_I2SN    SPI2 // only SPI2 and SPI3 supports I2S
 #define I2S_MCLK    PC6 // I2S2_MCK
 #define I2S_SCLK    PB10 // or PB13 I2S2_CK
-#define I2S_SDIN    PC3 // I2S2_SD or PB15 mcu out -> dac in
+#define I2S_SDIN    PC2 // I2S2_SD or PB14 mcu out -> dac in
 #define I2S_LRCK    PB12 // I2S2_WS
 
 #endif /* DARDUINO_BLACK_F407VE */
