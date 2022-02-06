@@ -56,7 +56,6 @@
 
 //#define USE_ML_SYNTH_PRO
 
-
 //#define AUDIO_PASS_THROUGH
 
 
@@ -130,7 +129,7 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define MAX_DELAY   (SAMPLE_RATE/2)
 
 /* use this to display a scope on the oled display */
-#define OLED_OSC_DISP_ENABLED
+//#define OLED_OSC_DISP_ENABLED
 
 /*
  * include the board configuration

@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# User
+*.bat
+makefile*
+*
+.cproject
+.project
+cdt.h

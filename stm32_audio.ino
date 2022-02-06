@@ -42,13 +42,17 @@
 #endif
 
 
+#if (defined ARDUINO_DISCO_F407VG) || (defined ARDUINO_BLACK_F407VE) || (defined ARDUINO_BLUEPILL_F103C8) || (defined ARDUINO_BLUE_F103VE)
+
 #ifdef ARDUINO_DISCO_F407VG
+#define SETUP_CS43L22_CODEC
+#endif
 
 #include <I2S.h> /* ensure that library from board lib is used and not and external one */
+
+#ifdef SETUP_CS43L22_CODEC
+
 #include <Wire.h>
-
-
-I2SClass I2S(I2S_I2SN, I2S_SDIN, I2S_LRCK, I2S_SCLK, I2S_MCLK);
 
 
 #define CODEC_ADDR 0x4A
@@ -61,6 +65,10 @@ void codec_writeReg(unsigned char reg, unsigned char data)
     Wire.write(reg);
     Wire.write(data);
     error = Wire.endTransmission();
+    if (error != 0)
+    {
+        Serial.printf("Wire transmission error: %d\n", error);
+    }
 }
 
 uint8_t I2C_ReadReg(uint8_t dev, uint8_t reg)
@@ -69,7 +77,7 @@ uint8_t I2C_ReadReg(uint8_t dev, uint8_t reg)
     Wire.write(reg); // set memory pointer to reg address
     Wire.endTransmission();
 
-    Wire.requestFrom(dev, 1); // request one byte of data from codec
+    Wire.requestFrom(dev, 1U); // request one byte of data from codec
     return Wire.read(); // store the incoming byte into "inputs"
 }
 
@@ -92,13 +100,25 @@ void register_read(uint8_t reg, uint8_t &value)
     value = I2C_ReadReg(0x4A, reg);
 }
 
+#endif /*SETUP_CS43L22_CODEC */
+
+/*
+ * object to access I2S interface
+ */
+I2SClass I2S(I2S_I2SN, I2S_SDIN, I2S_LRCK, I2S_SCLK, I2S_MCLK);
 
 void STM32_AudioInit()
 {
+#ifdef SETUP_CS43L22_CODEC
     pinMode(DAC_RESET, OUTPUT);
     digitalWrite(DAC_RESET, LOW); /* turn the codec off */
+#endif
+
     I2S.begin(I2S_PHILIPS_MODE, SAMPLE_RATE, 16);
+
+#ifdef SETUP_CS43L22_CODEC
     digitalWrite(DAC_RESET, HIGH); /* turn the codec on */
+
 
     Wire.begin();
 
@@ -137,9 +157,10 @@ void STM32_AudioInit()
         register_read(i, val);
         Serial.printf("0x%02x: 0x%02x\n", i, val);
     }
+#endif /* SETUP_CS43L22_CODEC */
 }
 
-void STM32_AudioWriteS16(int32_t *samples)
+void STM32_AudioWriteS16(const int32_t *samples)
 {
     int16_t u16int[2 * SAMPLE_BUFFER_SIZE];
 
@@ -154,7 +175,7 @@ void STM32_AudioWriteS16(int32_t *samples)
     }
 }
 
-void STM32_AudioWrite(float *fl_sample, float *fr_sample)
+void STM32_AudioWrite(const float *fl_sample, const float *fr_sample)
 {
     for (size_t i = 0; i < SAMPLE_BUFFER_SIZE; i++)
     {

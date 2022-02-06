@@ -76,7 +76,7 @@ bool i2s_write_sample_32ch2(uint64_t sample)
     }
 }
 
-bool i2s_write_stereo_samples(float *fl_sample, float *fr_sample)
+bool i2s_write_stereo_samples(const float *fl_sample, const float *fr_sample)
 {
 #ifdef SAMPLE_SIZE_32BIT
     static union sampleTUNT
@@ -140,7 +140,7 @@ bool i2s_write_stereo_samples(float *fl_sample, float *fr_sample)
 }
 
 #ifdef SAMPLE_SIZE_16BIT
-bool i2s_write_stereo_samples_i16(int16_t *fl_sample, int16_t *fr_sample)
+bool i2s_write_stereo_samples_i16(const int16_t *fl_sample, const int16_t *fr_sample)
 {
     size_t bytes_written = 0;
 
@@ -171,7 +171,7 @@ bool i2s_write_stereo_samples_i16(int16_t *fl_sample, int16_t *fr_sample)
 #endif
 
 #ifdef SAMPLE_BUFFER_SIZE
-bool i2s_write_stereo_samples_buff(float *fl_sample, float *fr_sample, const int buffLen)
+bool i2s_write_stereo_samples_buff(const float *fl_sample, const float *fr_sample, const int buffLen)
 {
 #ifdef SAMPLE_SIZE_32BIT
     static union sampleTUNT

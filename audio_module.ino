@@ -225,7 +225,7 @@ void ProcessAudio(uint16_t *buff, size_t len)
 
 #endif
 
-void Audio_OutputMono(int32_t *samples)
+void Audio_OutputMono(const int32_t *samples)
 {
 #ifdef ESP8266
     for (int i = 0; i < SAMPLE_BUFFER_SIZE; i++)
@@ -366,7 +366,7 @@ void Audio_Input(float *left, float *right)
 #endif /* ESP32 */
 }
 
-void Audio_Output(float *left, float *right)
+void Audio_Output(const float *left, const float *right)
 {
 #ifdef OUTPUT_SAW_TEST
     for (int i = 0; i < SAMPLE_BUFFER_SIZE; i++)
