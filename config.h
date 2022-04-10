@@ -79,7 +79,7 @@
  */
 //#define MIDI_RECV_FROM_SERIAL
 
-/* activate MIDI via USB */
+/* MIDI_VIA_USB_ENABLED activates MIDI via USB (please look into usbMidiHost.ino for more information) */
 //#define MIDI_VIA_USB_ENABLED
 
 /*
@@ -153,8 +153,6 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define SAMPLE_RATE 44100
 #define SAMPLE_SIZE_16BIT
 #define SAMPLE_BUFFER_SIZE  48
-
-//#define MIDI_VIA_USB_ENABLED /* activate this when connected to the USB host breakout board */
 
 #endif /* ESP32 */
 

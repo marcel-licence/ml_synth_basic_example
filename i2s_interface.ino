@@ -323,7 +323,11 @@ i2s_config_t i2s_configuration =
 #ifdef I2S_NODAC
     .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
     .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+#ifdef ARDUINO_RUNNING_CORE
+    .communication_format = I2S_COMM_FORMAT_STAND_I2S,
+#else
     .communication_format = (i2s_comm_format_t)I2S_COMM_FORMAT_I2S_MSB,
+#endif
 #else
 #ifdef SAMPLE_SIZE_32BIT
     .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT, /* the DAC module will only take the 8bits from MSB */
@@ -335,7 +339,11 @@ i2s_config_t i2s_configuration =
     .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT, /* the DAC module will only take the 8bits from MSB */
 #endif
     .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
+#ifdef ARDUINO_RUNNING_CORE
+    .communication_format = I2S_COMM_FORMAT_STAND_I2S,
+#else
     .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
+#endif
 #endif
     .intr_alloc_flags = 0, // default interrupt priority
     .dma_buf_count = 8,

@@ -54,7 +54,7 @@
 #include <Wire.h>
 #endif
 
-/* requires the ml_Synth library */
+/* requires the ML_SynthTools library: https://github.com/marcel-licence/ML_SynthTools */
 #include <ml_arp.h>
 #ifdef REVERB_ENABLED
 #include <ml_reverb.h>
