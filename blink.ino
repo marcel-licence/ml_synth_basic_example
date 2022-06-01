@@ -56,4 +56,16 @@ void Blink_Process(void)
     ledOn = !ledOn;
 }
 
+void Blink_Pulse(uint8_t cnt)
+{
+    delay(500);
+    for (int i = 0; i < cnt; i++)
+    {
+        digitalWrite(BLINK_LED_PIN, HIGH);
+        delay(50);
+        digitalWrite(BLINK_LED_PIN, LOW);
+        delay(200);
+    }
+}
+
 #endif
