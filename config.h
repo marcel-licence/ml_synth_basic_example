@@ -122,7 +122,6 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define BOARD_ESP32_AUDIO_KIT_ES8388 /* activate this when using the ESP32 Audio Kit v2.2 with the ES8388 codec */
 //#define BOARD_ESP32_DOIT /* activate this when using the DOIT ESP32 DEVKIT V1 board */
 
-#define LED_PIN     BLINK_LED_PIN
 
 #define REVERB_ENABLED
 

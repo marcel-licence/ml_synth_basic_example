@@ -28,9 +28,14 @@
  * Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
  */
 
-/*
- * this file includes a simple blink task implementation
+/**
+ * @file blink.ino
+ * @author Marcel Licence
+ * @date 12.05.2021
+ *
+ * @brief  this file includes a simple blink task implementation
  */
+
 
 #ifdef BLINK_LED_PIN
 
@@ -39,7 +44,6 @@ void Blink_Setup(void)
 {
     pinMode(BLINK_LED_PIN, OUTPUT);
 }
-
 
 inline
 void Blink_Process(void)
@@ -56,4 +60,17 @@ void Blink_Process(void)
     ledOn = !ledOn;
 }
 
+void Blink_Pulse(uint8_t cnt)
+{
+    delay(500);
+    for (int i = 0; i < cnt; i++)
+    {
+        digitalWrite(BLINK_LED_PIN, HIGH);
+        delay(50);
+        digitalWrite(BLINK_LED_PIN, LOW);
+        delay(200);
+    }
+}
+
 #endif
+
