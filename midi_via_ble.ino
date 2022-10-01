@@ -29,11 +29,14 @@
  */
 
 /**
- * @file midi_ble.ino
+ * @file midi_via_ble.ino
  * @author Marcel Licence
  * @date 24.02.2022
  *
  * @brief This module is used to add BLE support
+ *
+ * @see https://youtu.be/awurJEY8X10
+ * @see https://github.com/lathoub/Arduino-BLE-MIDI
  */
 
 
@@ -43,7 +46,7 @@
 
 #ifdef MIDI_BLE_ENABLED
 
-#include <BLEMIDI_Transport.h>
+#include <BLEMIDI_Transport.h> /* Using library Arduino-BLE-MIDI at version 2.2 from https://github.com/lathoub/Arduino-BLE-MIDI */
 
 #ifdef MIDI_BLE_CLIENT
 
@@ -128,6 +131,7 @@ void midi_ble_setup()
     MIDI.setHandleNoteOn([](byte channel, byte note, byte velocity)
     {
         channel -= 1;
+
         if (midiMapping.noteOn != NULL)
         {
 #ifdef MIDI_FMT_INT
