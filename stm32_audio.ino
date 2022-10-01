@@ -141,7 +141,7 @@ void STM32_AudioInit()
     codec_writeReg(0x04, 0xaf); // power ctrl
     codec_writeReg(0x0d, 0x70);
     codec_writeReg(0x05, 0x81); // clocking: auto speed is determined by the MCLK/LRCK ratio.
-    codec_writeReg(0x06, 0x07); // DAC interface format, I�S 16 bit
+    codec_writeReg(0x06, 0x07); // DAC interface format, I2S 16 bit
     codec_writeReg(0x0a, 0x00);
     codec_writeReg(0x27, 0x00);
     codec_writeReg(0x80, 0x0a); // both channels on

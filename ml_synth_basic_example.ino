@@ -140,6 +140,10 @@ void setup()
 
     Serial.printf("Firmware started successfully\n");
 
+#ifdef MIDI_BLE_ENABLED
+    midi_ble_setup();
+#endif
+
 #ifdef NOTE_ON_AFTER_SETUP /* activate this line to get a tone on startup to test the DAC */
     Synth_NoteOn(0, 64, 1.0f);
 #endif
@@ -347,6 +351,10 @@ void loop()
     Midi_Process();
 #ifdef MIDI_VIA_USB_ENABLED
     UsbMidi_ProcessSync();
+#endif
+
+#ifdef MIDI_BLE_ENABLED
+    midi_ble_loop();
 #endif
 
     /* zero buffer, otherwise you can pass trough an input signal */

@@ -131,6 +131,17 @@ SoftwareSerial Serial2(RXD2, TXD2);
 //#define OLED_OSC_DISP_ENABLED
 
 /*
+ * use MIDI_BLE_ENABLED to activate the MIDI BLE functionality
+ * you might turn off the delay and reverb due to the high heap consumption
+ * MIDI BLE will be set as SERVER if MIDI_BLE_CLIENT is deactivated
+ * Turn on MIDI_BLE_DEBUG_ENABLED to get some debug messages.
+ * @see https://youtu.be/awurJEY8X10
+ */
+//#define MIDI_BLE_ENABLED
+//#define MIDI_BLE_CLIENT /* configured as client it will start to search for the server to connect to */
+//#define MIDI_BLE_DEBUG_ENABLED
+
+/*
  * include the board configuration
  * there you will find the most hardware depending pin settings
  */
