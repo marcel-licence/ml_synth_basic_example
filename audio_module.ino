@@ -366,13 +366,19 @@ void Audio_Input(float *left, float *right)
 #endif /* ESP32 */
 }
 
+#ifdef OUTPUT_SAW_TEST
+void Audio_Output(float *left, float *right)
+#else
 void Audio_Output(const float *left, const float *right)
+#endif
 {
 #ifdef OUTPUT_SAW_TEST
     for (int i = 0; i < SAMPLE_BUFFER_SIZE; i++)
     {
-        left[i] = ((float)i) / ((float)SAMPLE_BUFFER_SIZE);
-        right[i] = ((float)i) / ((float)SAMPLE_BUFFER_SIZE);
+        left[i] = ((float)i * 2.0f) / ((float)SAMPLE_BUFFER_SIZE);
+        right[i] = ((float)i * 2.0f) / ((float)SAMPLE_BUFFER_SIZE);
+        left[i] -= 1.0f;
+        right[i] -= 1.0f;
     }
 #endif
 
