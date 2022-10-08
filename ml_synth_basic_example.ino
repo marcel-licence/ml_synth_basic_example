@@ -365,6 +365,7 @@ void loop()
     Audio_Input(left, right);
 #endif
 
+#ifndef OUTPUT_SAW_TEST /* skip audio processing when test signal is active */
     /*
      * Process synthesizer core
      */
@@ -391,6 +392,8 @@ void loop()
         left[i] += mono[i];
         right[i] += mono[i];
     }
+#endif
+
 #endif
 
     /*

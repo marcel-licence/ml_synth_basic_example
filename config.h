@@ -58,6 +58,9 @@
 
 //#define AUDIO_PASS_THROUGH
 
+/* use the following to test the output / codec */
+//#define OUTPUT_SAW_TEST
+
 
 #define ARP_MODULE_ENABLED /* allow using arp module */
 #define MIDI_SYNC_MASTER /* turn this off to use external midi clock signal */
@@ -122,6 +125,7 @@ SoftwareSerial Serial2(RXD2, TXD2);
 //#define BOARD_ESP32_AUDIO_KIT_ES8388 /* activate this when using the ESP32 Audio Kit v2.2 with the ES8388 codec */
 //#define BOARD_ESP32_DOIT /* activate this when using the DOIT ESP32 DEVKIT V1 board */
 #define BOARD_WEMOS_D1_MINI_ESP32
+//#define BOARD_ADAFRUIT_QT_PY_ESPS2
 
 
 #define REVERB_ENABLED

@@ -49,6 +49,14 @@
 #include <driver/i2s.h>
 
 
+#ifdef I2S_NODAC
+#ifndef SOC_I2S_SUPPORTS_DAC
+#error internal dac not supported by your current configuration
+/* this message appears in case you cannot use the I2S interface to push audio data to the internal DAC */
+#endif
+#endif
+
+
 /*
  * no dac not tested within this code
  * - it has the purpose to generate a quasy analog signal without a DAC
@@ -466,6 +474,11 @@ void setup_i2s()
     REG_WRITE(PIN_CTRL, 0xFFFFFFF0);
     PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U, FUNC_GPIO0_CLK_OUT1);
 #endif
+    Serial.printf("I2S configured using following pins:\n");
+    Serial.printf("    BCLK,BCK: %d\n", pins.bck_io_num);
+    Serial.printf("    WCLK,LCK: %d\n", pins.ws_io_num);
+    Serial.printf("    DOUT: %d\n", pins.data_out_num);
+    Serial.printf("    DIN: %d\n", pins.data_in_num);
 }
 
 #endif /* ESP32 */
