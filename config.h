@@ -70,7 +70,7 @@
 #include <Audio.h> /* required to access teensy audio defines */
 #endif
 
-
+#define MIDI_MAP_FLEX_ENABLED
 
 /* this will force using const velocity for all notes, remove this to get dynamic velocity */
 #define MIDI_USE_CONST_VELOCITY

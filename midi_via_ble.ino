@@ -177,7 +177,9 @@ void midi_ble_setup()
         channel -= 1;
 
         Midi_CC_Map(channel, number, value, midiMapping.controlMapping, midiMapping.mapSize);
+#ifdef MIDI_MAP_FLEX_ENABLED
         Midi_CC_Map(channel, number, value, midiMapping.controlMapping_flex, midiMapping.mapSize_flex);
+#endif
 
         if (number == 1)
         {
