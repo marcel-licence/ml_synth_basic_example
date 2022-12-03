@@ -64,11 +64,18 @@
 #include <ml_scope.h>
 #endif
 
+//#include <ml_midi.h>
+
+
+char shortName[] = "ML_BasicSynth";
+
+
 void setup()
 {
     /*
      * this code runs once
      */
+
 #ifdef BLINK_LED_PIN
     Blink_Setup();
     Blink_Pulse(1);
@@ -142,6 +149,10 @@ void setup()
 
 #ifdef MIDI_BLE_ENABLED
     midi_ble_setup();
+#endif
+
+#ifdef MIDI_USB_ENABLED
+    Midi_Usb_Setup();
 #endif
 
 #ifdef NOTE_ON_AFTER_SETUP /* activate this line to get a tone on startup to test the DAC */
@@ -357,6 +368,10 @@ void loop()
     midi_ble_loop();
 #endif
 
+#ifdef MIDI_USB_ENABLED
+    Midi_Usb_Loop();
+#endif
+
     /* zero buffer, otherwise you can pass trough an input signal */
     memset(left, 0, sizeof(left));
     memset(right, 0, sizeof(right));
@@ -459,7 +474,7 @@ void  ScanI2C(void)
 
     Wire.begin(I2C_SDA, I2C_SCL);
 
-    byte error, address;
+    byte address;
     int nDevices;
 
     Serial.println("Scanning...");
@@ -467,13 +482,14 @@ void  ScanI2C(void)
     nDevices = 0;
     for (address = 1; address < 127; address++)
     {
+        byte r_error;
         // The i2c_scanner uses the return value of
         // the Write.endTransmisstion to see if
         // a device did acknowledge to the address.
         Wire.beginTransmission(address);
-        error = Wire.endTransmission();
+        r_error = Wire.endTransmission();
 
-        if (error == 0)
+        if (r_error == 0)
         {
             Serial.print("I2C device found at address 0x");
             if (address < 16)
@@ -485,7 +501,7 @@ void  ScanI2C(void)
 
             nDevices++;
         }
-        else if (error == 4)
+        else if (r_error == 4)
         {
             Serial.print("Unknown error at address 0x");
             if (address < 16)
