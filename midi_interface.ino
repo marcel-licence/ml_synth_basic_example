@@ -151,6 +151,7 @@ struct midiMapping_s
     void (*pitchBend)(uint8_t ch, float bend);
     void (*modWheel)(uint8_t ch, float value);
 #endif
+    void (*programChange)(uint8_t ch, uint8_t program_number);
     void (*rttMsg)(uint8_t msg);
     void (*songPos)(uint16_t pos);
 
@@ -258,6 +259,18 @@ inline void Midi_ControlChange(uint8_t channel, uint8_t data1, uint8_t data2)
     }
 }
 
+/*
+ * program_numer: to select program from 0 - 127
+ * to access more sound use control change with a bank select!
+ */
+inline void Midi_ProgramChange(uint8_t ch, uint8_t program_number)
+{
+    if (midiMapping.programChange != NULL)
+    {
+        midiMapping.programChange(ch, program_number);
+    }
+}
+
 inline void Midi_PitchBend(uint8_t ch, uint16_t bend)
 {
 #ifdef MIDI_BLE_ENABLED
@@ -309,6 +322,9 @@ inline void Midi_HandleShortMsg(uint8_t *data, uint8_t cable __attribute__((unus
         break;
     case 0xb0:
         Midi_ControlChange(ch, data[1], data[2]);
+        break;
+    case 0xc0:
+        Midi_ProgramChange(ch, data[1]);
         break;
     /* pitchbend */
     case 0xe0:
