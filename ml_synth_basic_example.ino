@@ -64,7 +64,20 @@
 #include <ml_scope.h>
 #endif
 
+#include <ml_types.h>
+
 //#include <ml_midi.h>
+
+
+#define ML_SYNTH_INLINE_DECLARATION
+#include <i2s_interface.h>
+#include <i2s_module.h>
+#include <audio_module.h>
+#include <midi_interface.h>
+#include <midi_stream_player.h>
+#include <midi_via_ble.h>
+#include <midi_via_usb.h>
+#undef ML_SYNTH_INLINE_DECLARATION
 
 
 char shortName[] = "ML_BasicSynth";
