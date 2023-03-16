@@ -117,7 +117,9 @@ static uint32_t midi_note_to_add[MIDI_NOTE_CNT]; /* lookup to playback waveforms
  * add here your waveforms
  */
 //float *sine = NULL;
-float sine[WAVEFORM_CNT];
+float static_sine[WAVEFORM_CNT];
+float *sine = static_sine;
+
 //float *saw = NULL;
 float saw[WAVEFORM_CNT];
 //float *square = NULL;
