@@ -89,7 +89,7 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 2.0.0<br />
 <b>Board:</b> ESP32 Dev Module<br />
 <br />
-<b>Program storage space:</b> 716581 bytes<br />
+<b>Program storage space:</b> 716829 bytes<br />
 <b>Dynamic memory:</b> 77492 bytes<br />
 <br />
 <b>PSRAM:</b> Disabled<br />
@@ -166,7 +166,7 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.0.6<br />
 <b>Board:</b> ESP32 Dev Module<br />
 <br />
-<b>Program storage space:</b> 711798 bytes<br />
+<b>Program storage space:</b> 712042 bytes<br />
 <b>Dynamic memory:</b> 77788 bytes<br />
 <br />
 <b>PSRAM:</b> Disabled<br />
@@ -241,7 +241,7 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.13.1<br />
 <b>Board:</b> Raspberry Pi Pico<br />
 <br />
-<b>Program storage space:</b> 83320 bytes<br />
+<b>Program storage space:</b> 83640 bytes<br />
 <b>Dynamic memory:</b> 64180 bytes<br />
 <br />
 <b>Flash Size:</b> 2MB (no FS)<br />
@@ -294,7 +294,7 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.13.1<br />
 <b>Board:</b> Generic RP2040<br />
 <br />
-<b>Program storage space:</b> 83320 bytes<br />
+<b>Program storage space:</b> 83640 bytes<br />
 <b>Dynamic memory:</b> 64180 bytes<br />
 <br />
 <b>Flash Size:</b> 2MB (no FS)<br />
