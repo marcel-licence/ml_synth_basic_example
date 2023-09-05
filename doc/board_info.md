@@ -7,8 +7,8 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 2.5.0<br />
 <b>Board:</b> Generic STM32H7 Series<br />
 <br />
-<b>Program storage space:</b> 107676 bytes<br />
-<b>Dynamic memory:</b> 58396 bytes<br />
+<b>Program storage space:</b> 102236 bytes<br />
+<b>Dynamic memory:</b> 50840 bytes<br />
 <br />
 <b>Board part number:</b> Daisy Seed<br />
 <b>Upload method:</b> STM32CubeProgrammer (SWD)<br />
@@ -89,8 +89,8 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 2.0.0<br />
 <b>Board:</b> ESP32 Dev Module<br />
 <br />
-<b>Program storage space:</b> 716829 bytes<br />
-<b>Dynamic memory:</b> 77492 bytes<br />
+<b>Program storage space:</b> 711849 bytes<br />
+<b>Dynamic memory:</b> 70356 bytes<br />
 <br />
 <b>PSRAM:</b> Disabled<br />
 <b>Partition Scheme:</b> Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)<br />
@@ -166,8 +166,8 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.0.6<br />
 <b>Board:</b> ESP32 Dev Module<br />
 <br />
-<b>Program storage space:</b> 712042 bytes<br />
-<b>Dynamic memory:</b> 77788 bytes<br />
+<b>Program storage space:</b> 707046 bytes<br />
+<b>Dynamic memory:</b> 70636 bytes<br />
 <br />
 <b>PSRAM:</b> Disabled<br />
 <b>Partition Scheme:</b> Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)<br />
@@ -238,19 +238,23 @@ Below you will find a list of build which can be configured and should compile w
     </tr>
 </table><hr>
 <a name="rp2040_rp2040_rpipico"></a><b>Core:</b> <a h_ref="https://github.com/earlephilhower/arduino-pico">Raspberry Pi RP2040 Boards</a><br />
-<b>Version:</b> 1.13.1<br />
+<b>Version:</b> 3.2.0<br />
 <b>Board:</b> Raspberry Pi Pico<br />
 <br />
-<b>Program storage space:</b> 83328 bytes<br />
-<b>Dynamic memory:</b> 64180 bytes<br />
+<b>Program storage space:</b> 73900 bytes<br />
+<b>Dynamic memory:</b> 53128 bytes<br />
 <br />
 <b>Flash Size:</b> 2MB (no FS)<br />
-<b>CPU Speed:</b> 125 MHz<br />
+<b>CPU Speed:</b> 133 MHz<br />
 <b>Optimize:</b> Small (-Os) (standard)<br />
 <b>RTTI:</b> Disabled<br />
+<b>Stack Protector:</b> Disabled<br />
+<b>C++ Exceptions:</b> Disabled<br />
 <b>Debug Port:</b> Disabled<br />
 <b>Debug Level:</b> None<br />
 <b>USB Stack:</b> Adafruit TinyUSB<br />
+<b>IP/Bluetooth Stack:</b> IPv4 Only<br />
+<b>Upload Method:</b> Default (UF2)<br />
 <br />
 <b>Used libraries:</b><br />
 <table>
@@ -270,8 +274,15 @@ Below you will find a list of build which can be configured and should compile w
     </tr>
     <tr>
         <td>I2S</td>
-        <td>1.0</td>
+        <td>2.0</td>
         <td>http://www.arduino.cc/en/Reference/I2S</td>
+        <td></td>
+        <td>True</td>
+    </tr>
+    <tr>
+        <td>AudioBufferManager</td>
+        <td>1.0.0</td>
+        <td>https://github.com/earlephilhower/arduino-pico</td>
         <td></td>
         <td>True</td>
     </tr>
@@ -291,20 +302,24 @@ Below you will find a list of build which can be configured and should compile w
     </tr>
 </table><hr>
 <a name="rp2040_rp2040_generic"></a><b>Core:</b> <a h_ref="https://github.com/earlephilhower/arduino-pico">Raspberry Pi RP2040 Boards</a><br />
-<b>Version:</b> 1.13.1<br />
+<b>Version:</b> 3.2.0<br />
 <b>Board:</b> Generic RP2040<br />
 <br />
-<b>Program storage space:</b> 83328 bytes<br />
-<b>Dynamic memory:</b> 64180 bytes<br />
+<b>Program storage space:</b> 86068 bytes<br />
+<b>Dynamic memory:</b> 53672 bytes<br />
 <br />
 <b>Flash Size:</b> 2MB (no FS)<br />
-<b>CPU Speed:</b> 125 MHz<br />
-<b>Optimize:</b> Small (-Os) (standard)<br />
+<b>CPU Speed:</b> 133 MHz<br />
+<b>Optimize:</b> Optimize Even More (-O3)<br />
 <b>RTTI:</b> Disabled<br />
+<b>Stack Protector:</b> Disabled<br />
+<b>C++ Exceptions:</b> Disabled<br />
 <b>Debug Port:</b> Disabled<br />
 <b>Debug Level:</b> None<br />
 <b>USB Stack:</b> Adafruit TinyUSB<br />
-<b>Boot Stage 2:</b> W25Q080 QSPI /4<br />
+<b>IP/Bluetooth Stack:</b> IPv4 Only<br />
+<b>Boot Stage 2:</b> Generic SPI /2<br />
+<b>Upload Method:</b> Default (UF2)<br />
 <br />
 <b>Used libraries:</b><br />
 <table>
@@ -324,8 +339,15 @@ Below you will find a list of build which can be configured and should compile w
     </tr>
     <tr>
         <td>I2S</td>
-        <td>1.0</td>
+        <td>2.0</td>
         <td>http://www.arduino.cc/en/Reference/I2S</td>
+        <td></td>
+        <td>True</td>
+    </tr>
+    <tr>
+        <td>AudioBufferManager</td>
+        <td>1.0.0</td>
+        <td>https://github.com/earlephilhower/arduino-pico</td>
         <td></td>
         <td>True</td>
     </tr>
@@ -348,8 +370,8 @@ Below you will find a list of build which can be configured and should compile w
 <b>Version:</b> 1.8.5<br />
 <b>Board:</b> Teensy 4.1<br />
 <br />
-<b>Flash:</b> code: 75384 bytes, data: 16424 bytes, headers: 8540 bytes<br />
-<b>RAM1:</b> variables: 78528 bytes, data: 72392 bytes, headers: 25912 bytes<br />
+<b>Flash:</b> code: 74676 bytes, data: 11568 bytes, headers: 8984 bytes<br />
+<b>RAM1:</b> variables: 70336 bytes, data: 71688 bytes, headers: 26616 bytes<br />
 <b>RAM2:</b> variables: 13952 bytes<br />
 <br />
 <b>USB Type:</b> Serial<br />

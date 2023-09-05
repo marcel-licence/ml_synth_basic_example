@@ -227,14 +227,13 @@ struct oscillatorT oscPlayer[MAX_POLY_OSC];
 static uint32_t osc_act = 0;
 
 
-
 struct notePlayerT
 {
     float lastSample[2][SAMPLE_BUFFER_SIZE];
 
     float velocity;
     bool active;
-    //  adsr_phaseT phase;
+    // adsr_phaseT phase;
 
     uint8_t midiCh;
     uint8_t midiNote;
@@ -324,7 +323,6 @@ void Synth_Init()
     }
 
 
-
     /*
      * let us calculate some waveforms
      * - using lookup tables can save a lot of processing power later
@@ -409,7 +407,6 @@ void Synth_Init()
     }
 }
 
-static struct filterCoeffT mainFilt;
 
 static float filtCutoff = 1.0f;
 static float filtReso = 0.5f;
@@ -748,7 +745,7 @@ inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unus
     /*
      * add oscillator
      */
-    for (int  i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
     {
         osc = getFreeOsc();
         if (osc != NULL)
@@ -909,7 +906,7 @@ void Synth_SetOscParam(uint8_t slider, float value)
         oscCfg->volume = value;
         break;
     case SYNTH_OSC_PARAM_PITCH:
-        oscCfg->pitch =  pow(2, (14.0f / 12.0f) * (value - 0.5f));
+        oscCfg->pitch = pow(2, (14.0f / 12.0f) * (value - 0.5f));
         break;
 
     case SYNTH_PARAM_VOICE_MORPH_WAVEFORM:
@@ -1037,7 +1034,7 @@ void Synth_SetParam(uint8_t slider, float value)
         Filter_Calculate(filtCutoff, filtReso, &filterGlobalC);
         break;
     case SYNTH_PARAM_MAIN_FILT_RESO:
-        filtReso =  0.5f + 10 * value * value * value; /* min q is 0.5 here */
+        filtReso = 0.5f + 10 * value * value * value; /* min q is 0.5 here */
         Serial.printf("main filter reso: %0.3f\n", filtReso);
         Filter_Calculate(filtCutoff, filtReso, &filterGlobalC);
         break;

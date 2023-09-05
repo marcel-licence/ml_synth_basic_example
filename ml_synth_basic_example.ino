@@ -476,7 +476,7 @@ void App_UsbMidiShortMsgReceived(uint8_t *msg)
  * Test functions
  */
 #if defined(I2C_SCL) && defined (I2C_SDA) && (!defined ARDUINO_DISCO_F407VG)
-void  ScanI2C(void)
+void ScanI2C(void)
 {
 
     Wire.begin(I2C_SDA, I2C_SCL);
