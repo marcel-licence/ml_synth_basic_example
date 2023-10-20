@@ -1,7 +1,10 @@
 fqbn;version;config
+STMicroelectronics:stm32:Disco;2.5.0;PNUM=DISCO_F407VG
 STMicroelectronics:stm32:GenH7;2.5.0;PNUM=DAISY_SEED
-espressif:esp32:esp32;2.0.2;PSRAM=disabled\nPARTITION_SCHEME=default
+espressif:esp32:d1_mini32;2.0.13;PSRAM=disabled\nPARTITION_SCHEME=default
 espressif:esp32:esp32;1.0.6;PSRAM=disabled\nPARTITION_SCHEME=default
-rp2040:rp2040:rpipico;latest;USBSTACK=tinyusb
+espressif:esp32:esp32;2.0.13;PSRAM=disabled\nPARTITION_SCHEME=default
+espressif:esp32:esp32;2.0.2;PSRAM=disabled\nPARTITION_SCHEME=default
 rp2040:rp2040:generic;latest;USBSTACK=tinyusb
+rp2040:rp2040:rpipico;latest;USBSTACK=tinyusb
 teensy:avr:teensy41;1.8.5;TEENSY_USB=serial
