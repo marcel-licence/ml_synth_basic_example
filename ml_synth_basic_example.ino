@@ -267,7 +267,7 @@ void Core0Task(void *parameter)
 
 static uint32_t midi_sync = 0;
 
-void Midi_SyncRecvd()
+void Midi_SyncRecvd(void)
 {
     midi_sync += 1;
 }
@@ -305,7 +305,7 @@ void MidiSyncMasterLoop(void)
     }
 }
 
-void Synth_SetMidiMasterTempo(uint8_t unused, float val)
+void Synth_SetMidiMasterTempo(uint8_t unused __attribute__((unused)), float val)
 {
     midi_tempo = 60.0f + val * (240.0f - 60.0f);
 }
@@ -321,7 +321,7 @@ void Synth_SongPosition(uint16_t pos)
     }
 }
 
-void Synth_SongPosReset(uint8_t unused, float var)
+void Synth_SongPosReset(uint8_t unused __attribute__((unused)), float var)
 {
     if (var > 0)
     {

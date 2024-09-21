@@ -310,6 +310,7 @@ void Synth_Init()
     {
         Serial.printf("saw ready\n");
     }
+#ifdef ESP32
     if (square == NULL)
     {
         Serial.printf("Not enough memory (3)\n");
@@ -330,7 +331,7 @@ void Synth_Init()
     {
         Serial.printf("Not enough memory (7)\n");
     }
-
+#endif
 
     /*
      * let us calculate some waveforms

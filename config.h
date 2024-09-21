@@ -60,6 +60,7 @@
 
 /* use the following to test the output / codec */
 //#define OUTPUT_SAW_TEST
+//#define OUTPUT_SINE_TEST
 
 
 #define ARP_MODULE_ENABLED /* allow using arp module */
@@ -119,7 +120,8 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define MEMORY_FROM_HEAP
 
 
-#define BOARD_ML_V1 /* activate this when using the ML PCB V1 */
+#define BOARD_ML_SYNTH_V2
+//#define BOARD_ML_V1 /* activate this when using the ML PCB V1 */
 //#define BOARD_ESP32_AUDIO_KIT_AC101 /* activate this when using the ESP32 Audio Kit v2.2 with the AC101 codec */
 //#define BOARD_ESP32_AUDIO_KIT_ES8388 /* activate this when using the ESP32 Audio Kit v2.2 with the ES8388 codec */
 //#define BOARD_ESP32_DOIT /* activate this when using the DOIT ESP32 DEVKIT V1 board */
@@ -237,13 +239,38 @@ SoftwareSerial Serial2(RXD2, TXD2);
 #define SAMPLE_BUFFER_SIZE  48
 #define SAMPLE_RATE  44100
 
-#define MIDI_PORT2_ACTIVE
+#define MIDI_RX1_PIN    13
+#define MIDI_TX1_PIN    12
 
 #define MIDI_USB_ENABLED /* connect RP2040 as a USB device */
 
 #define RP2040_AUDIO_PWM
 
 #endif /* ARDUINO_RASPBERRY_PI_PICO, ARDUINO_GENERIC_RP2040 */
+
+
+/*
+ * configuration for the Raspberry Pi Pico 2
+ * BOARD: Raspberry Pi RP2040 (4.0.1)
+ * Device: Raspberry Pi Pico 2
+ */
+#ifdef ARDUINO_ARCH_RP2040
+#ifndef __ARM_FEATURE_DSP
+#define SAMPLE_BUFFER_SIZE  48
+#define SAMPLE_RATE  48000
+#else
+#define SAMPLE_BUFFER_SIZE  48
+#define SAMPLE_RATE  48000
+#define PICO_AUDIO_I2S
+#define PICO_AUDIO_I2S_DATA_PIN 26
+#define PICO_AUDIO_I2S_CLOCK_PIN_BASE 27
+#define MIDI_RX1_PIN    13
+#define MIDI_TX1_PIN    12
+#define LED_PIN LED_BUILTIN
+#define BLINK_LED_PIN LED_BUILTIN
+//#define MIDI_USB_ENABLED /* connect RP2040 as a USB device */
+#endif
+#endif
 
 /*
  * Configuration for
