@@ -120,8 +120,12 @@ static uint32_t midi_note_to_add[MIDI_NOTE_CNT]; /* lookup to playback waveforms
 float static_sine[WAVEFORM_CNT];
 float *sine = static_sine;
 
-//float *saw = NULL;
+#if 0
+float *saw = NULL;
+#else
 float saw[WAVEFORM_CNT];
+#endif
+
 //float *square = NULL;
 float square[WAVEFORM_CNT];
 #ifdef ESP32
@@ -188,6 +192,9 @@ struct channelSetting_s
     float modulationDepth;
     float modulationSpeed;
     float modulationPitch;
+#ifdef PRESSURE_SENSOR_ENABLED
+    float pressureValue;
+#endif
 
     /* pitchbend */
     float pitchBendValue;
@@ -293,11 +300,13 @@ void Synth_Init()
     {
         Serial.printf("Not enough memory (1)\n");
     }
+#if 0
     if (saw == NULL)
     {
         Serial.printf("Not enough memory (2)\n");
     }
     else
+#endif
     {
         Serial.printf("saw ready\n");
     }
@@ -330,7 +339,7 @@ void Synth_Init()
      */
     for (int i = 0; i < WAVEFORM_CNT; i++)
     {
-        float val = (float)sin(i * 2.0 * PI / WAVEFORM_CNT);
+        float val = (float)sin(((float)i) * 2.0 * M_PI * (1.0f / ((float)WAVEFORM_CNT)));
         sine[i] = val;
         saw[i] = (2.0f * ((float)i) / ((float)WAVEFORM_CNT)) - 1.0f;
         square[i] = (i > (WAVEFORM_CNT / 2)) ? 1 : -1;
@@ -427,14 +436,13 @@ static void Synth_ChannelSettingInit(struct channelSetting_s *setting)
     setting->soundFiltReso = 0.5f;
     setting->soundNoiseLevel = 0.0f;
 
-    struct adsrT adsr_def = {1.0f, 0.25f, 1.0f, 0.01f};
-
-    memcpy(&setting->adsr_vol, &adsr_def, sizeof(adsr_def));
-    memcpy(&setting->adsr_fil, &adsr_def, sizeof(adsr_def));
-    memcpy(&setting->adsr_pit, &adsr_def, sizeof(adsr_def));
-    memcpy(&setting->adsr_mod, &adsr_def, sizeof(adsr_def));
-    memcpy(&setting->adsr_mof, &adsr_def, sizeof(adsr_def));
-    memcpy(&setting->adsr_mph, &adsr_def, sizeof(adsr_def));
+    ADSR_SetSamplerate(SAMPLE_RATE);
+    ASDR_Init(&setting->adsr_vol, 1.0f, 0.25f, 1.0f, 0.01f);
+    ASDR_Init(&setting->adsr_fil, 1.0f, 0.25f, 1.0f, 0.01f);
+    ASDR_Init(&setting->adsr_pit, 1.0f, 0.25f, 1.0f, 0.01f);
+    ASDR_Init(&setting->adsr_mod, 1.0f, 0.25f, 1.0f, 0.01f);
+    ASDR_Init(&setting->adsr_mof, 1.0f, 0.25f, 1.0f, 0.01f);
+    ASDR_Init(&setting->adsr_mph, 1.0f, 0.25f, 1.0f, 0.01f);
 
 
     setting->pitchEnv = 0.5f;
@@ -495,6 +503,8 @@ float GetModulation(uint8_t ch)
     return chCfg[ch].modulationPitch * (SineNorm((modSpeed * ((float)millis()) / 1000.0f)));
 }
 
+const float postGain = 1.0f / ((float)MAX_POLY_OSC);
+
 //[[gnu::noinline, gnu::optimize ("fast-math")]]
 inline void Synth_Process(float *left, float *right, uint32_t len)
 {
@@ -534,6 +544,9 @@ inline void Synth_Process(float *left, float *right, uint32_t len)
         voice->morph = voice->cfg->morph;
         voice->morph += voice->adsr_mph.ctrl * voice->cfg->adsr_mph.w;
         voice->morph += voice->cfg->morph_lfo * voice->cfg->modulation * 2;
+#ifdef PRESSURE_SENSOR_ENABLED
+        voice->morph += voice->cfg->pressureValue;
+#endif
     }
 
     /*
@@ -591,7 +604,7 @@ inline void Synth_Process(float *left, float *right, uint32_t len)
                 if (n % 32 == 0)
                 {
                     float ff = voice->adsr_filter.ctrl;
-                    ff += voice->cfg->modulation * voice->adsr_mod_f.ctrl * voice->cfg->adsr_mof.s ;
+                    ff += voice->cfg->modulation * voice->adsr_mod_f.ctrl * voice->cfg->adsr_mof.s;
                     if (ff > 1.0f)
                     {
                         ff = 1.0f;
@@ -613,8 +626,8 @@ inline void Synth_Process(float *left, float *right, uint32_t len)
              */
             for (uint32_t n = 0; n < len; n++)
             {
-                left[n] += voice->lastSample[0][n] * 0.4f * 0.25f * (1.0f / 3.0f) ;
-                right[n] += voice->lastSample[1][n] * 0.4f * 0.25f * (1.0f / 3.0f);
+                left[n] += voice->lastSample[0][n] * postGain;
+                right[n] += voice->lastSample[1][n] * postGain;
             }
         }
     }
@@ -693,7 +706,7 @@ inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unus
      */
     if ((voice == NULL) || (osc == NULL))
     {
-        Serial.printf("NotFree, voc: %d, osc: %d\n", voc_act, osc_act);
+        Serial.printf("NotFree, voc: %" PRIu32 ", osc: %" PRIu32 "\n", voc_act, osc_act);
         return ;
     }
 
@@ -790,7 +803,7 @@ inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unus
 
 inline void Synth_NoteOff(uint8_t ch, uint8_t note)
 {
-    for (int j = 0; j < chCfg[ch].noteCnt; j++)
+    for (uint32_t j = 0; j < chCfg[ch].noteCnt; j++)
     {
         if (chCfg[ch].noteStack[j] == note)
         {
@@ -831,6 +844,13 @@ void Synth_ModulationWheel(uint8_t ch, float value)
 {
     chCfg[ch].modulationDepth = value;
 }
+
+#ifdef PRESSURE_SENSOR_ENABLED
+void Synth_Pressure(uint8_t ch, float value)
+{
+    chCfg[ch].pressureValue = value;
+}
+#endif
 
 void Synth_ModulationSpeed(uint8_t ch, float value)
 {

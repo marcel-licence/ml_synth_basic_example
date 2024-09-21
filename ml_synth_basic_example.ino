@@ -92,18 +92,19 @@ void setup()
     DaisySeed_Setup();
 #endif
 
-    delay(500);
+    delay(1500);
 
     Serial.begin(115200);
+    delay(1500);
 
-    Serial.println();
 
-    Serial.printf("esp32_basic_synth  Copyright (C) 2021  Marcel Licence\n");
+    Serial.printf("ml_synth_basic_example  Copyright (C) 2024  Marcel Licence\n");
     Serial.printf("This program comes with ABSOLUTELY NO WARRANTY;\n");
     Serial.printf("This is free software, and you are welcome to redistribute it\n");
     Serial.printf("under certain conditions; \n");
 
     Serial.printf("Initialize Synth Module\n");
+    delay(1000);
     Synth_Init();
 
 #ifdef REVERB_ENABLED
@@ -135,6 +136,9 @@ void setup()
 #endif
 
     Serial.printf("Initialize Audio Interface\n");
+#ifdef ML_BOARD_SETUP
+    Board_Setup();
+#else
     Audio_Setup();
 
     Serial.printf("Initialize Midi Module\n");
@@ -142,6 +146,7 @@ void setup()
      * setup midi module / rx port
      */
     Midi_Setup();
+#endif
 
     Arp_Init(24 * 4); /* slowest tempo one step per bar */
 
@@ -206,6 +211,10 @@ void Core0TaskSetup()
 #ifdef MIDI_VIA_USB_ENABLED
     UsbMidi_Setup();
 #endif
+
+#ifdef PRESSURE_SENSOR_ENABLED
+    PressureSetup();
+#endif
 }
 
 void Core0TaskLoop()
@@ -234,6 +243,10 @@ void Core0TaskLoop()
 
 #ifdef OLED_OSC_DISP_ENABLED
     ScopeOled_Process();
+#endif
+
+#ifdef PRESSURE_SENSOR_ENABLED
+    PressureLoop();
 #endif
 }
 
@@ -387,7 +400,6 @@ void loop()
     Audio_Input(left, right);
 #endif
 
-#ifndef OUTPUT_SAW_TEST /* skip audio processing when test signal is active */
     /*
      * Process synthesizer core
      */
@@ -414,8 +426,6 @@ void loop()
         left[i] += mono[i];
         right[i] += mono[i];
     }
-#endif
-
 #endif
 
     /*
