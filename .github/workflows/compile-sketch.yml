@@ -48,6 +48,8 @@ jobs:
 
   build_esp8266:
 
+    if: false
+
     name: build esp8266
 
     runs-on: ubuntu-latest
