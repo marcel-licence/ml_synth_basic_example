@@ -74,7 +74,7 @@
 #undef ML_SYNTH_INLINE_DECLARATION
 
 
-char shortName[] = "ML_BasicSynth";
+const char shortName[] = "ML_BasicSynth";
 
 
 void setup()
