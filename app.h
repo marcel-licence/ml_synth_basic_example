@@ -14,41 +14,49 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
+ * Dieses Programm ist Freie Software: Sie kÃ¶nnen es unter den Bedingungen
  * der GNU General Public License, wie von der Free Software Foundation,
  * Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
- * veröffentlichten Version, weiter verteilen und/oder modifizieren.
+ * verÃ¶ffentlichten Version, weiter verteilen und/oder modifizieren.
  *
- * Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
- * OHNE JEDE GEWÄHR,; sogar ohne die implizite
- * Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
- * Siehe die GNU General Public License für weitere Einzelheiten.
+ * Dieses Programm wird in der Hoffnung bereitgestellt, dass es nÃ¼tzlich sein wird, jedoch
+ * OHNE JEDE GEWÃ„HR,; sogar ohne die implizite
+ * GewÃ¤hr der MARKTFÃ„HIGKEIT oder EIGNUNG FÃœR EINEN BESTIMMTEN ZWECK.
+ * Siehe die GNU General Public License fÃ¼r weitere Einzelheiten.
  *
  * Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
  * Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
  */
 
 /**
- * @file ml_inline.ino
+ * @file app.h
  * @author Marcel Licence
+ * @date 08.03.2026
  *
- * @brief This file inlines library functions
- * @see https://github.com/marcel-licence/ML_SynthTools
+ * @brief Declarations of the app
  */
 
 
-#include "config.h"
+#ifndef APP_H_
+#define APP_H_
 
 
-#define ML_SYNTH_INLINE_DECLARATION
-#include <ml_inline.h>
-#undef ML_SYNTH_INLINE_DECLARATION
+#include <stdint.h>
 
-#define ML_SYNTH_INLINE_DEFINITION
-#include <ml_inline.h>
-#ifdef OLED_OSC_DISP_ENABLED
-#define ML_SCOPE_OLED
-#include <ml_scope_oled_inline.h>
-#endif
-#undef ML_SYNTH_INLINE_DEFINITION
 
+void App_Setup(void);
+void App_Loop(void);
+
+void App_Setup1(void);
+void App_Loop1(void);
+
+
+void Synth_Init(void);
+void Synth_SongPosition(uint16_t pos);
+void Synth_RealTimeMsg(uint8_t msg);
+void Synth_Process(float *left, float *right, uint32_t len);
+void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unused)));
+void Synth_NoteOff(uint8_t ch, uint8_t note);
+
+
+#endif /* APP_H_ */
