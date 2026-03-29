@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Marcel Licence
+ * Copyright (c) 2026 Marcel Licence
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,9 @@
 #ifdef __CDT_PARSER__
 #include "cdt.h"
 #endif
+
+
+#include "config.h"
 
 
 #include <ml_osc.h>
@@ -276,7 +279,7 @@ uint32_t voc_act = 0;
 
 static float justOne = 1.0f;
 
-void Synth_Init()
+void Synth_Init(void)
 {
 #ifdef ESP32
     randomSeed(34547379);
@@ -507,7 +510,7 @@ float GetModulation(uint8_t ch)
 const float postGain = 1.0f / ((float)MAX_POLY_OSC);
 
 //[[gnu::noinline, gnu::optimize ("fast-math")]]
-inline void Synth_Process(float *left, float *right, uint32_t len)
+void Synth_Process(float *left, float *right, uint32_t len)
 {
     /*
      * update pitch bending / modulation
@@ -665,7 +668,7 @@ static struct notePlayerT *getFreeVoice(void)
     return NULL;
 }
 
-inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unused)))
+void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unused)))
 {
     struct notePlayerT *voice = getFreeVoice();
     struct oscillatorT *osc = getFreeOsc();
@@ -802,7 +805,7 @@ inline void Synth_NoteOn(uint8_t ch, uint8_t note, float vel __attribute__((unus
     Filter_Process(&voice->lastSample[1][0], &voice->filterR);
 }
 
-inline void Synth_NoteOff(uint8_t ch, uint8_t note)
+void Synth_NoteOff(uint8_t ch, uint8_t note)
 {
     for (uint32_t j = 0; j < chCfg[ch].noteCnt; j++)
     {
