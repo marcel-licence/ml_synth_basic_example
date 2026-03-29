@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2026 Marcel Licence
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
+ * der GNU General Public License, wie von der Free Software Foundation,
+ * Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
+ * veröffentlichten Version, weiter verteilen und/oder modifizieren.
+ *
+ * Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
+ * OHNE JEDE GEWÄHR,; sogar ohne die implizite
+ * Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+ * Siehe die GNU General Public License für weitere Einzelheiten.
+ *
+ * Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+ * Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * @file config_esp32s2.h
+ * @author Marcel Licence
+ *
+ * @brief Configuration for ESP32S2
+ */
+
+
+#if (defined ARDUINO_LOLIN_S2_MINI) || (defined ARDUINO_ESP32S2_DEV)
+
+#define SAMPLE_RATE 44100
+#define SAMPLE_SIZE_16BIT
+#define SAMPLE_BUFFER_SIZE  48
+
+#define I2S_BCLK_PIN -1
+#define I2S_WCLK_PIN -1
+#define I2S_DOUT_PIN 17
+#define I2S_DIRECT_OUT
+#define AUDIO_MONO_DOWNMIX
+#define AUDIO_OUT_MONO
+
+#endif
