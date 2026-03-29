@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Marcel Licence
+ * Copyright (c) 2026 Marcel Licence
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,10 +67,6 @@
 #define MIDI_SYNC_MASTER /* turn this off to use external midi clock signal */
 
 
-#ifdef TEENSYDUINO
-#include <Audio.h> /* required to access teensy audio defines */
-#endif
-
 #define MIDI_MAP_FLEX_ENABLED
 
 /* this will force using const velocity for all notes, remove this to get dynamic velocity */
@@ -86,280 +82,39 @@
 /* MIDI_VIA_USB_ENABLED activates MIDI via USB (please look into usbMidiHost.ino for more information) */
 //#define MIDI_VIA_USB_ENABLED
 
-/*
- * Configuration for
- * Board: "LOLIN(WEMOS) D1 R2 & mini 2 or similar
- */
-#ifdef ESP8266
 
-#define SWAP_SERIAL
-#define I2S_NODAC /* RX pin will be used for audio output */
-#define LED_PIN     LED_BUILTIN
-
-#define MIDI_PORT_ACTIVE
-
-#ifndef SWAP_SERIAL
-#define RXD2 13 /* U2RRXD, D7 */
-#define TXD2 15 /* U2RRXD, D0 */
-#include <SoftwareSerial.h>
-SoftwareSerial Serial2(RXD2, TXD2);
-#define MIDI_PORT2_ACTIVE
-#endif
-
-#define SAMPLE_RATE 44100
-#define SAMPLE_BUFFER_SIZE 48
-
-#endif /* ESP8266 */
-
-/*
- * Configuration for
- * Board: "ESP32 Dev Module" or similar
- */
-#ifdef ESP32
-
-#define MEMORY_FROM_HEAP
+//#define MIDI_FMT_INT
 
 
-#define BOARD_ML_SYNTH_V2
-//#define BOARD_ML_V1 /* activate this when using the ML PCB V1 */
-//#define BOARD_ESP32_AUDIO_KIT_AC101 /* activate this when using the ESP32 Audio Kit v2.2 with the AC101 codec */
-//#define BOARD_ESP32_AUDIO_KIT_ES8388 /* activate this when using the ESP32 Audio Kit v2.2 with the ES8388 codec */
-//#define BOARD_ESP32_DOIT /* activate this when using the DOIT ESP32 DEVKIT V1 board */
-//#define BOARD_TTGO_T9_RGB_LED_WM8978
-//#define BOARD_WEMOS_D1_MINI_ESP32
-//#define BOARD_ADAFRUIT_QT_PY_ESPS2
+#include "config/config_black_f407ve.h"
+#include "config/config_blackpill_f411ce.h"
+#include "config/config_blue_f103ve.h"
+#include "config/config_bluepill_f103c8.h"
+#include "config/config_daisy_seed.h"
+#include "config/config_disco_f407vg.h"
+#include "config/config_esp32.h"
+#include "config/config_esp32c3.h"
+#include "config/config_esp32s2.h"
+#include "config/config_esp8266.h"
+#include "config/config_generic_f407vgtx.h"
+#include "config/config_rp2040.h"
+#include "config/config_rp2350.h"
+#include "config/config_seeed_xioa_m0.h"
+#include "config/config_stm32f407vgtx.h"
+#include "config/config_teensy.h"
 
-
-#define REVERB_ENABLED
-
-#define MAX_DELAY   (SAMPLE_RATE/2)
-
-/* use this to display a scope on the oled display */
-//#define OLED_OSC_DISP_ENABLED
-
-/*
- * use MIDI_BLE_ENABLED to activate the MIDI BLE functionality
- * you might turn off the delay and reverb due to the high heap consumption
- * MIDI BLE will be set as SERVER if MIDI_BLE_CLIENT is deactivated
- * Turn on MIDI_BLE_DEBUG_ENABLED to get some debug messages.
- * @see https://youtu.be/awurJEY8X10
- */
-//#define MIDI_BLE_ENABLED
-//#define MIDI_BLE_CLIENT /* configured as client it will start to search for the server to connect to */
-//#define MIDI_BLE_DEBUG_ENABLED
 
 /*
  * include the board configuration
  * there you will find the most hardware depending pin settings
  */
-#include <ml_boards.h> /* requires the ML_Synth library:  https://github.com/marcel-licence/ML_SynthTools */
-
-#ifdef BOARD_ML_V1
-#elif (defined BOARD_ESP32_AUDIO_KIT_AC101)
-#elif (defined BOARD_ESP32_AUDIO_KIT_ES8388)
-#elif (defined BOARD_ESP32_DOIT)
-
-#define MIDI_PORT2_ACTIVE
-#define MIDI_RX2_PIN RXD2
-
-/* you can activate the following lines to get an additional MIDI input */
-// MIDI_PORT1_ACTIVE
-// #define MIDI_RX1_PIN 13
-#endif
-
-#define SAMPLE_RATE 44100
-#define SAMPLE_SIZE_16BIT
-#define SAMPLE_BUFFER_SIZE  48
-
-#endif /* ESP32 */
-
-/*
- * Configuration for
- * Board: "Teensy 4.1"
- *
- * BCK: 21
- * DIN: 7
- * LCK: 20
- */
-#ifdef TEENSYDUINO // CORE_TEENSY
-
-#define LED_PIN 13 /* led pin on teensy 4.1 */
-#define MIDI_PORT1_ACTIVE
-#define MIDI_SERIAL1_BAUDRATE   31250
-#define SAMPLE_BUFFER_SIZE AUDIO_BLOCK_SAMPLES
-#define SAMPLE_RATE AUDIO_SAMPLE_RATE
-
-#endif /* TEENSYDUINO */
-
-/*
- * Configuration for
- * Board: "Generic STM32H7 Series"
- * Board part number: "Daisy Seed"
- */
-#ifdef ARDUINO_DAISY_SEED
-
-#define LED_PIN LED_BUILTIN
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE 48000
-
-#define MIDI_PORT2_ACTIVE
-#define MIDI_BAUDRATE   31250
-
-#endif /* ARDUINO_DAISY_SEED */
-
-/*
- * Configuration for
- * Board: "Seeeduino XIAO"
- */
-#ifdef ARDUINO_SEEED_XIAO_M0
-
-#define LED_PIN LED_BUILTIN
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  22050
-
-#define MIDI_PORT1_ACTIVE
-
-#endif /* ARDUINO_SEEED_XIAO_M0 */
-
-/*
- * Configuration for
- * Board: "Rapsberry Pi Pico"
- *
- * BCK: 26
- * DIN: 28
- * LCK: 27  (always BCK + 1)
- *
- * MIDI_RX: 12 (GP9)
- *
- * Pinout @see https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/#prettyPhoto
- */
-#if (defined ARDUINO_RASPBERRY_PI_PICO) || (defined ARDUINO_GENERIC_RP2040)
-
-#define LED_PIN LED_BUILTIN
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  44100
-
-#define MIDI_RX1_PIN    13
-#define MIDI_TX1_PIN    12
-
-#define MIDI_USB_ENABLED /* connect RP2040 as a USB device */
-
-#define RP2040_AUDIO_PWM
-
-#endif /* ARDUINO_RASPBERRY_PI_PICO, ARDUINO_GENERIC_RP2040 */
+#include <ml_boards.h> /* requires library ML_SynthTools: https://github.com/marcel-licence/ML_SynthTools */
 
 
-/*
- * configuration for the Raspberry Pi Pico 2
- * BOARD: Raspberry Pi RP2040 (4.0.1)
- * Device: Raspberry Pi Pico 2
- */
-#ifdef ARDUINO_ARCH_RP2040
-#ifndef __ARM_FEATURE_DSP
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  48000
-#else
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  48000
-#define PICO_AUDIO_I2S
-#define PICO_AUDIO_I2S_DATA_PIN 26
-#define PICO_AUDIO_I2S_CLOCK_PIN_BASE 27
-#define MIDI_RX1_PIN    13
-#define MIDI_TX1_PIN    12
-#define LED_PIN LED_BUILTIN
-#define BLINK_LED_PIN LED_BUILTIN
-//#define MIDI_USB_ENABLED /* connect RP2040 as a USB device */
-#endif
-#endif
-
-/*
- * Configuration for
- * Board: "Generic STM32F4 Series"
- * Board part number: "Generic F407VGTx"
- *
- * does not work at the moment
- */
-#ifdef ARDUINO_GENERIC_F407VGTX
-
-#include <ml_boards.h> /* requires the ML_Synth library:  https://github.com/marcel-licence/ML_SynthTools */
-
-#define BLINK_LED_PIN LED_USER_RED
-#define LED_PIN LED_USER_GREEN
-
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  44100
-
-#define MIDI_PORT2_ACTIVE
-
-#endif /* ARDUINO_GENERIC_F407VGTX */
-
-
-#ifdef ARDUINO_DISCO_F407VG
-
-/*
- * max poly tested: 8 voices
- */
-
-#include <ml_boards.h> /* requires the ML_Synth library:  https://github.com/marcel-licence/ML_SynthTools */
-
-#define BLINK_LED_PIN LED_USER_RED
-#define LED_PIN LED_USER_GREEN
-
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  44100
-
-//#define MIDI_PORT1_ACTIVE /* MIDI in : PIN A10  not tested*/
-#define MIDI_PORT2_ACTIVE /* MIDI in : PIN A3 */
-
-
-#define REVERB_ENABLED
-#define REVERB_STATIC
-
-#define MAX_DELAY (44100/10) /* very short but not enough memory for more - mono delay or lo-fi might help */
-#define DELAY_STATIC
-
-
-#endif /* ARDUINO_DISCO_F407VG */
-
-
-#ifdef ARDUINO_BLACK_F407VE
-/*
- * from variant.h
- * LED_BUILTIN: PA6
- * LED1_BUILTIN: PA7
- *
- * USER_BUTTON0: PA0
- * USER_BUTTON1: PE3
- * USER_BUTTON2: PE4
- *
- * SDA: PB7
- * SCL: PB6
- *
- * @see http://wiki.stm32duino.com/images/5/5c/STM32_F4VE_SCHEMATIC.PDF
- */
-#define BLINK_LED_PIN LED_BUILTIN /* PA6 */
-#define LED_PIN LED_BUILTIN
-
-#define SAMPLE_BUFFER_SIZE  48
-#define SAMPLE_RATE  44100
-
-/*
- * define your I2S interface here!
- * values are just example values and will not work
- */
-#define I2S_I2SN    SPI2 // only SPI2 and SPI3 supports I2S
-#define I2S_MCLK    PC6 // I2S2_MCK
-#define I2S_SCLK    PB10 // or PB13 I2S2_CK
-#define I2S_SDIN    PC2 // I2S2_SD or PB14 mcu out -> dac in
-#define I2S_LRCK    PB12 // I2S2_WS
-
-#endif /* DARDUINO_BLACK_F407VE */
-
-
-//#define MIDI_FMT_INT
 #ifndef MIDI_BAUDRATE
 #define MIDI_BAUDRATE   31250
 #endif
+
 
 #endif /* CONFIG_H_ */
 
